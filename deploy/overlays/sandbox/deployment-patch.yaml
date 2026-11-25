@@ -5,6 +5,11 @@ metadata:
 spec:
   template:
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
       imagePullSecrets:
         - name: ghcr-pull
       terminationGracePeriodSeconds: 60
