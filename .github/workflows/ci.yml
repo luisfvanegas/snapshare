@@ -119,11 +119,12 @@ jobs:
             --dry-run=client -o yaml | kubectl --kubeconfig="$KUBECONFIG" apply -f -
       - name: Render and apply manifests
         run: |
-          sed -i "s|IMAGE_TAG|${GITHUB_SHA}|g" deploy/overlays/sandbox/deployment-patch.yaml
+          sed -i "s|IMAGE_TAG|sha-${GITHUB_SHA}|g" deploy/overlays/sandbox/deployment-patch.yaml
           kubectl --kubeconfig="$KUBECONFIG" apply -k deploy/overlays/sandbox
       - name: Pull OpenTofu state
         run: |
-          kubectl --kubeconfig="$KUBECONFIG" -n "$NS" get configmap tofu-state -o jsonpath='{.data.tfstate}' > infra/terraform.tfstate || printf '{}' > infra/terraform.tfstate
+          kubectl --kubeconfig="$KUBECONFIG" -n "$NS" get configmap tofu-state -o jsonpath='{.data.tfstate}' > infra/terraform.tfstate 2>/dev/null || rm -f infra/terraform.tfstate
+          [ -s infra/terraform.tfstate ] || rm -f infra/terraform.tfstate
       - name: Apply platform resources
         working-directory: infra
         run: |
