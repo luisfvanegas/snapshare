@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: snapshare
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: snapshare.91.107.206.11.sslip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: snapshare
+                port:
+                  number: 3000
