@@ -1,0 +1,7 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: snapshare
+spec:
+  rules:
+    - host: snapshare.91.107.206.11.sslip.io

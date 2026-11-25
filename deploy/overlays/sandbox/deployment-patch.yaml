@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapshare
+spec:
+  template:
+    spec:
+      terminationGracePeriodSeconds: 60
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: snapshare
+      containers:
+        - name: snapshare
+          image: ghcr.io/luisfvanegas/snapshare:IMAGE_TAG
+          env:
+            - name: SHUTDOWN_DRAIN_SECONDS
+              value: "10"
