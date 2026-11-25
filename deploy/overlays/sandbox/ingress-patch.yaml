@@ -5,3 +5,12 @@ metadata:
 spec:
   rules:
     - host: snapshare.91.107.206.11.sslip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: snapshare
+                port:
+                  number: 3000
