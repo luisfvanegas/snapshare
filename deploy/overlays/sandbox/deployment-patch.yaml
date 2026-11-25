@@ -5,6 +5,8 @@ metadata:
 spec:
   template:
     spec:
+      imagePullSecrets:
+        - name: ghcr-pull
       terminationGracePeriodSeconds: 60
       topologySpreadConstraints:
         - maxSkew: 1
